@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Uppy</title>
+  <subtitle>Almost as cute as a puppy</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://uppy.io/"/>
+  <updated>2016-08-23T03:42:24.557Z</updated>
+  <id>http://uppy.io/</id>
+  
+  <author>
+    <name>Transloadit</name>
+    <email>uppybot@uppy.io</email>
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Uppy version 0.8.0 released</title>
+    <link href="http://uppy.io/blog/2016/08/0.8.0/"/>
+    <id>http://uppy.io/blog/2016/08/0.8.0/</id>
+    <published>2016-08-17T00:00:00.000Z</published>
+    <updated>2016-08-23T03:42:24.557Z</updated>
+    
+    <content type="html"><![CDATA[<p>We have just released Uppy 0.8.0 and we can’t wait to tell you more about it. Along with various under-the-hood improvements, this release also contains some very visible upgrades. You can read below for further details.</p>
+<a id="more"></a>
+<h2 id="Including-Meta-Data"><a href="#Including-Meta-Data" class="headerlink" title="Including Meta Data"></a>Including Meta Data</h2><p>While fetching your files, Uppy is now also able to supply some custom metadata to go along with them. So far, there are three components in place for that: Core API (<code>core:update-meta</code> event), <code>MetaData</code> plugin, and a new panel in Dashboard UI called File Card, which looks like this:</p>
+<p><img alt="metadata dashboard UI, editing file name, future size and adding description" src="/images/blog/metadata-dashboard.jpg" class="border"></p>
+<p>To summon this panel, all you have to do is click the edit button on the Dashboard:</p>
+<p><img alt="metadata dashboard UI, editing file name, future size and adding description" src="/images/blog/uppy-dashboard-ui.jpg" class="border"></p>
+<p>By default, the only active metadata field is <code>Name</code>. However, if you want to add other fields you can utilize our new and easy to use <code>MetaData</code> plugin:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> uppy = <span class="keyword">new</span> Uppy()</div><div class="line">  .use(Dashboard)</div><div class="line">  .use(MetaData, &#123;</div><div class="line">    fields: [</div><div class="line">      &#123; id: <span class="string">'resizeTo'</span>, name: <span class="string">'Resize to'</span>, value: <span class="number">1200</span>, placeholder: <span class="string">'specify future image size'</span> &#125;,</div><div class="line">      &#123; id: <span class="string">'description'</span>, name: <span class="string">'Description'</span>, value: <span class="string">''</span>, placeholder: <span class="string">'describe what the file is for'</span> &#125;</div><div class="line">    ]</div><div class="line">  &#125;)</div></pre></td></tr></table></figure>
+<p>And just like that, we have added two fields: <code>Resize</code> and <code>Description</code>. All metadata is sent along with both <a href="http://tus.io" target="_blank" rel="external">tus</a> and multipart uploads.</p>
+<h2 id="Webcam-Support"><a href="#Webcam-Support" class="headerlink" title="Webcam Support"></a>Webcam Support</h2><p>We have also added a basic <code>Webcam</code> plugin, which allows you to acquire images directly from your own webcam. This is still a work in progress and we will be improving it in the next release.</p>
+<h2 id="Mime-Types-and-File-Icons"><a href="#Mime-Types-and-File-Icons" class="headerlink" title="Mime Types and File Icons"></a>Mime Types and File Icons</h2><p>Uppy now includes a <a href="https://www.npmjs.com/package/mime-types" target="_blank" rel="external">mime-type</a> library that helps us figure out file types by extension.</p>
+<p>Having proper file types also means that we need the right corresponding file icons for the Dashboard UI. We have already added a few and we will soon supply more icons for audio, video, text, PDF and other common file types.</p>
+<h2 id="Previously-on-Uppy-File-Previews-Remote-File-Handling-Accessibility-and-Acceptance-Tests-Stats"><a href="#Previously-on-Uppy-File-Previews-Remote-File-Handling-Accessibility-and-Acceptance-Tests-Stats" class="headerlink" title="Previously on Uppy: File Previews, Remote File Handling, Accessibility and Acceptance Tests Stats"></a>Previously on Uppy: File Previews, Remote File Handling, Accessibility and Acceptance Tests Stats</h2><p>We thought it might be worth taking a moment to list a few highlights from the previous versions as well:</p>
+<ul>
+<li>If a file you selected is an image, its preview thumbnail data URL will be generated and added to <code>file.preview</code> in Uppy’s state. This URL can be used later to render a preview with any plugin. Currently, this is done by the mighty Dashboard.</li>
+<li>It is now also possible to select remote files in Uppy. Simply double-click a file from, for instance, Google Drive, and Uppy will then show it in a preview area.</li>
+<li>We have been doing some more work on accessibility: from now on, when you switch tabs in Modal, it will focus on the first input in that tab. We have also added proper labels and titles, and are doing more research in this area.</li>
+<li>Everybody likes to see stats. That is why, on our website, you can now <a href="http://uppy.io/stats">view stats</a> that show how acceptance tests are performing in various browsers. If a test is successful, that means Uppy will likely be able to load and upload files in that particular browser.</li>
+<li>The Dashboard UI is now way better looking and easier to work with. It replaced the old <code>Modal</code> plugin and it can accept files via drag &amp; drop, local disk and paste (experimental, WIP). It has become our main source of truth and the basic acquire plugin for local files. The DragDrop plugin is still available as a lighter alternative.</li>
+</ul>
+<h2 id="Release-Notes"><a href="#Release-Notes" class="headerlink" title="Release Notes"></a>Release Notes</h2><p>Here is the full list of changes for version 0.8.0.</p>
+<ul>
+<li>core: fix bug: no meta information from uppy-server files (<a href="https://github.com/hedgerh" target="_blank" rel="external">@hedgerh</a>)</li>
+<li>core: fix bug: uppy-server file is treated as local and directly uploaded (<a href="https://github.com/hedgerh" target="_blank" rel="external">@hedgerh</a>)</li>
+<li>uppy-server: hammering out websockets/oauth (<a href="https://github.com/hedgerh" target="_blank" rel="external">@hedgerh</a>, <a href="https://github.com/acconut" target="_blank" rel="external">@acconut</a>)</li>
+<li>debugger: introduce MagicLog as a way to debug state changes in Uppy (<a href="https://github.com/arturi" target="_blank" rel="external">@arturi</a>)</li>
+<li>modifier: A MetaData plugin to supply meta data (like width, tag, filename, user_id) (<a href="https://github.com/arturi" target="_blank" rel="external">@arturi</a>)</li>
+<li>modifier: pass custom metadata with non-tus-upload. Maybe mimic meta behavior of tus here, too (<a href="https://github.com/arturi" target="_blank" rel="external">@arturi</a>)</li>
+<li>modifier: pass custom metadata with tus-upload with tus-js-client (<a href="https://github.com/arturi" target="_blank" rel="external">@arturi</a>)</li>
+<li>webcam: initial version: webcam light goes on (<a href="https://github.com/hedgerh" target="_blank" rel="external">@hedgerh</a>)</li>
+<li>progress: better icons, styles (<a href="https://github.com/arturi" target="_blank" rel="external">@arturi</a>)</li>
+<li>core: better mime/type detection (via mime + extension) (<a href="https://github.com/arturi" target="_blank" rel="external">@arturi</a>)</li>
+<li>core: add deep-freeze to getState so that we are sure we are not mutating state accidentally (<a href="https://github.com/arturi" target="_blank" rel="external">@arturi</a>)</li>
+<li>meta: release “Uppy Begins” post (<a href="https://github.com/arturi" target="_blank" rel="external">@arturi</a> <a href="https://github.com/kvz" target="_blank" rel="external">@kvz</a>)</li>
+<li>meta: better readme on GitHub and NPM (<a href="https://github.com/arturi" target="_blank" rel="external">@arturi</a>)</li>
+<li>test: add pre-commit &amp; lint-staged (<a href="https://github.com/arturi" target="_blank" rel="external">@arturi</a>)</li>
+<li>test: add next-update <a href="https://www.npmjs.com/package/next-update" target="_blank" rel="external">https://www.npmjs.com/package/next-update</a> to check if packages we use can be safely updated (<a href="https://github.com/arturi" target="_blank" rel="external">@arturi</a>)</li>
+<li>website: blog polish — add post authors and their gravatars (<a href="https://github.com/arturi" target="_blank" rel="external">@arturi</a>)</li>
+<li>dashboard: UI revamp, more prototypes, background image, make dashboard nicer (<a href="https://github.com/arturi" target="_blank" rel="external">@arturi</a>)</li>
+<li>dashboard: try a workflow where import from external service slides over and takes up the whole dashboard screen (<a href="https://github.com/arturi" target="_blank" rel="external">@arturi</a>)</li>
+<li>modal: merge modal and dashboard (<a href="https://github.com/arturi" target="_blank" rel="external">@arturi</a>)</li>
+</ul>
+<p>We hope you will enjoy this latest release. Uppy is still improving every day and we hope to bring you more news about our progress soon!</p>
+<p>The Uppy Team</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;We have just released Uppy 0.8.0 and we can’t wait to tell you more about it. Along with various under-the-hood improvements, this release also contains some very visible upgrades. You can read below for further details.&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Uppy: let’s teach an old dog some new tricks</title>
+    <link href="http://uppy.io/blog/2016/07/uppy-begins/"/>
+    <id>http://uppy.io/blog/2016/07/uppy-begins/</id>
+    <published>2016-07-15T00:00:00.000Z</published>
+    <updated>2016-08-23T03:42:24.557Z</updated>
+    
+    <content type="html"><![CDATA[<p>For the past six months, we have been working hard on uppy.io. We feel that it is high time we gave you a look behind the scenes: what are we working on, and why.</p>
+<p>The way uploading works has not changed in a meaningful way since the days of our trusty old 56 kbit/s modems. Of course, files have gotten bigger and speeds have increased, but that is more or less all there is to say. If it were up to us – and we hope it is – that is all about to change.</p>
+<p>We at <a href="https://transloadit.com/" target="_blank" rel="external">Transloadit</a> are on a mission to change the way the world does uploading. To accomplish this, our first step has been to develop an open protocol for resumable file uploads, called <a href="http://tus.io/" target="_blank" rel="external">‘tus’</a>. Finally, that 2GB video upload from your smartphone doesn’t have to start over when your train passes through a tunnel! The protocol got <a href="https://news.ycombinator.com/item?id=10591348" target="_blank" rel="external">Hacker News excited</a> on several occasions and is being deployed by, among others, our friends at Vimeo. Now that a stable version 1.0 of ‘tus’ has been released, it is time to put it to the test. A protocol without real-world applications is nothing more than a meaningless document, after all.</p>
+<p>We are therefore excited to tell you about Uppy: the file uploader that will certainly fetch more than just your newspaper.</p>
+<a id="more"></a>
+<h2 id="Why-the-need-for-another-file-uploader"><a href="#Why-the-need-for-another-file-uploader" class="headerlink" title="Why the need for another file uploader?"></a>Why the need for another file uploader?</h2><p>It is true, there are indeed already a good few file uploading solutions out there (<a href="http://www.dropzonejs.com/" target="_blank" rel="external">Dropzone</a>, for instance, is quite good). And – for the most part – they do their job. Nevertheless, they are quite limited in their functionality:</p>
+<ul>
+<li><p>You can drag and drop files from local disk, but uploaders that supports Instagram, Dropbox or Google Drive are scarce. The ones out there lock you in with vendors and are hard to customize for own use.</p>
+</li>
+<li><p>File uploaders are seldom mindful of the existence of encoding and processing backends, while the reality is that files often require some form of processing and that the end user would like to receive progress updates with regard to that.</p>
+</li>
+<li><p>None of the currently available file uploaders make use of the standardized resumability that ‘tus’ provides, which makes them less than ideal for handling larger files.</p>
+</li>
+<li><p>Lastly, we feel that the current solutions are sometimes dropping the ball when it comes to a polished user experience. We aim to fix that.</p>
+</li>
+</ul>
+<p>All in all, we think there is definitely some ‘trouble at the old mill’ here and it’s time to let Uppy take care of that!</p>
+<h2 id="Our-plans-for-Uppy"><a href="#Our-plans-for-Uppy" class="headerlink" title="Our plans for Uppy"></a>Our plans for Uppy</h2><p>Uppy will be a JavaScript file uploader that allows you to fetch files, not only from your local disk, but also from places like Dropbox, Instagram, Google Drive, webcams and remote URLs. It will have a modular, plugin-based design, making it lightweight and customizable.</p>
+<p>Cute on the outside, the core of Uppy is very robust – thanks to resumability through ‘tus’. We are confident that Uppy will be able to send even the biggest of files over the smallest of tubes.</p>
+<p>Uppy will also offer first class support for accessing Transloadit’s uploading and encoding backend, making it incredibly versatile. Of course, these are all ultimately just plugins, and Uppy can just as easily be used with your own backend – meaning no need to pay any subscription fees.</p>
+<p>We are intent on making the user experience as smooth and satisfying as possible, in terms of both functionality and visual design. Uppy will have a beautiful, themeable UI and it will look – and work – great on mobile platforms as well. While we hope that advanced users will love the customizable nature of Uppy, an ample selection of presets will also be there to make sure that novice users are not going to be lost in the woods.</p>
+<p>Lastly, and this is a point of special significance to us, Uppy will be completely open source. When Uppy is finished, you will be free to use it for whatever you like. Until that time, we very much welcome your ideas and contributions. There are still a lot of decisions to be made and this is the perfect time to come and influence the end product.</p>
+<p>We are going to work hard on bringing you the best file uploader possible and we’ll keep you informed about the development process on <a href="http://uppy.io/">uppy.io</a>. We can’t wait for you to meet Uppy!</p>
+<blockquote>
+<p>It seems we’re on the Hacker News frontpage. <a href="https://news.ycombinator.com/item?id=12109410" target="_blank" rel="external">Comments welcome there</a>.</p>
+</blockquote>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;For the past six months, we have been working hard on uppy.io. We feel that it is high time we gave you a look behind the scenes: what are we working on, and why.&lt;/p&gt;
+&lt;p&gt;The way uploading works has not changed in a meaningful way since the days of our trusty old 56 kbit/s modems. Of course, files have gotten bigger and speeds have increased, but that is more or less all there is to say. If it were up to us – and we hope it is – that is all about to change.&lt;/p&gt;
+&lt;p&gt;We at &lt;a href=&quot;https://transloadit.com/&quot;&gt;Transloadit&lt;/a&gt; are on a mission to change the way the world does uploading. To accomplish this, our first step has been to develop an open protocol for resumable file uploads, called &lt;a href=&quot;http://tus.io/&quot;&gt;‘tus’&lt;/a&gt;. Finally, that 2GB video upload from your smartphone doesn’t have to start over when your train passes through a tunnel! The protocol got &lt;a href=&quot;https://news.ycombinator.com/item?id=10591348&quot;&gt;Hacker News excited&lt;/a&gt; on several occasions and is being deployed by, among others, our friends at Vimeo. Now that a stable version 1.0 of ‘tus’ has been released, it is time to put it to the test. A protocol without real-world applications is nothing more than a meaningless document, after all.&lt;/p&gt;
+&lt;p&gt;We are therefore excited to tell you about Uppy: the file uploader that will certainly fetch more than just your newspaper.&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+</feed>
